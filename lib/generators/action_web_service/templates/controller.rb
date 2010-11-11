@@ -1,8 +1,8 @@
 class <%= class_name %>Controller < ApplicationController
   wsdl_service_name '<%= class_name %>'
-<% for method_name in args -%>
+<% for action in actions -%>
 
-  def <%= method_name %>
+  def <%= action %>
   end
 <% end -%>
 end
