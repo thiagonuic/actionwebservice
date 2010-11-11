@@ -1,5 +1,5 @@
 class <%= class_name %>Api < ActionWebService::API::Base
-<% for method_name in args -%>
-  api_method :<%= method_name %>
+<% for action in actions -%>
+  api_method :<%= action %>
 <% end -%>
 end
