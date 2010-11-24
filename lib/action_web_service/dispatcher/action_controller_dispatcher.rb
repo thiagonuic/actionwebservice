@@ -135,6 +135,27 @@ module ActionWebService # :nodoc:
               logger.debug(indent(ws_response.body))
             end
           end
+          
+          def log_error(exception)
+            return unless logger
+            
+            ActiveSupport::Deprecation.silence do
+ 	            if ActionView::TemplateError === exception
+  	            logger.fatal(exception.to_s)
+	            else
+	              logger.fatal(
+	                "\n#{exception.class} (#{exception.message}):\n  " +
+	                clean_backtrace(exception).join("\n  ") + "\n\n"
+	              )
+	            end
+	          end
+	        end
+	
+	        def clean_backtrace(exception)
+	          defined?(Rails) && Rails.respond_to?(:backtrace_cleaner) ?
+	            Rails.backtrace_cleaner.clean(exception.backtrace) :
+	            exception.backtrace
+	        end
 
           def indent(body)
             body.split(/\n/).map{|x| "  #{x}"}.join("\n")
